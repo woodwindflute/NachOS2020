@@ -51,7 +51,7 @@ Scheduler::Scheduler(SchedulerType type)
         	readyList = new List<Thread *>;
         	break;
     	case SJF:
-		/* todo */
+		readyList = new List<Thread *>;
         	break;
     	case Priority:
 		readyList = new SortedList<Thread *>(PriorityCompare);
@@ -88,7 +88,9 @@ Scheduler::ReadyToRun (Thread *thread)
     DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
     
     thread->setStatus(READY);
-    readyList->Append(thread);
+    /*ming modify*/
+    readyList->SJF(thread);
+    /*ming modify*/
 }
 
 //----------------------------------------------------------------------
