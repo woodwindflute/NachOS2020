@@ -69,6 +69,9 @@ class List {
 				// has this list been corrupted?
     void SelfTest(T *p, int numEntries);
 				// verify module is working
+    /*ming add*/
+    void SJF (T item);
+    /*ming add*/
 
   protected:
     ListElement<T> *first;  	// Head of the list, NULL if list is empty

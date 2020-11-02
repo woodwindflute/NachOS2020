@@ -51,14 +51,14 @@ Scheduler::Scheduler(SchedulerType type)
         	readyList = new List<Thread *>;
         	break;
     	case SJF:
-		/* todo */
+		readyList = new List<Thread *>;
         	break;
     	case Priority:
-		    readyList = new SortedList<Thread *>(PriorityCompare);
+		readyList = new SortedList<Thread *>(PriorityCompare);
         	break;
     	case FIFO:
-		    readyList = new List<Thread *>;
-		    break;
+		/* todo */
+		break;
    	}
 	toBeDestroyed = NULL;
 } 
@@ -70,8 +70,9 @@ Scheduler::Scheduler(SchedulerType type)
 
 Scheduler::~Scheduler()
 { 
-    delete readyList;
-}
+    delete readyList; 
+} 
+
 //----------------------------------------------------------------------
 // Scheduler::ReadyToRun
 // 	Mark a thread as ready, but not running.
@@ -87,8 +88,9 @@ Scheduler::ReadyToRun (Thread *thread)
     DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
     
     thread->setStatus(READY);
-    readyList->Append(thread);
-    cout<<"The Thread "<<thread->getName()<< " Priority Value -> "<<thread->getPriority()<<endl; 
+    /*ming modify*/
+    readyList->SJF(thread);
+    /*ming modify*/
 }
 
 //----------------------------------------------------------------------
@@ -104,12 +106,9 @@ Scheduler::FindNextToRun ()
 {
     ASSERT(kernel->interrupt->getLevel() == IntOff);
 
-    if (readyList->IsEmpty()) 
-    {
-	    return NULL;
-    } 
-    else 
-    {
+    if (readyList->IsEmpty()) {
+	return NULL;
+    } else {
     	return readyList->RemoveFront();
     }
 }
@@ -212,5 +211,5 @@ void
 Scheduler::Print()
 {
     cout << "Ready list contents:\n";
-    readyList->Apply(ThreadPrint);   
+    readyList->Apply(ThreadPrint);
 }

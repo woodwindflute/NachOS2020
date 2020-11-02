@@ -39,10 +39,9 @@ class UserProgKernel : public ThreadedKernel {
 
   private:
     bool debugUserProg;		// single step user program
-    Thread* t[10];
-	  char*	execfile[10];
-	  int	execfileNum;
-    int* priority = new int[execfileNum]; //HanYu add
+	Thread* t[10];
+	char*	execfile[10];
+	int	execfileNum;
 };
 
 #endif //USERKERNEL_H
