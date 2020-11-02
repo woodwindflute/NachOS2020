@@ -58,30 +58,15 @@ Alarm::CallBack()
 	    timer->Disable();	// turn off the timer
 	}
     } else {			// there's someone to preempt
-
-	//mind modify
-	Thread *t;
-	kernel->currentThread->predictNextCPUBurstTime();
-
-	printf("%s's current CPUBurstTime is %d\n", kernel->currentThread ->
-getName(), kernel->currentThread->getCPUBurstTime());
-
-	t = kernel->scheduler->FindNextToRun();
-	if(t == NULL)
-		return;
-	kernel->scheduler->ReadyToRun(t);
-	if(t->getCPUBurstTime()<(kernel->currentThread->getCPUBurstTime()))
+	if(kernel->scheduler->getSchedulerType() == RR) {
 		interrupt->YieldOnReturn();
-	//ming modify
-
+	}
+	if(kernel->scheduler->getSchedulerType() == FIFO) {
+		return;
+	}
+    if(kernel->scheduler->getSchedulerType() == Priority) {
+		return;
+	}
     }
 }
-
-
-
-
-
-
-
-
 

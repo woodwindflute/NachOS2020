@@ -43,6 +43,11 @@ UserProgKernel::UserProgKernel(int argc, char **argv)
 		cout << "	./nachos -s : Print machine status during the machine is on." << endl;
 		cout << "	./nachos -e file1 -e file2 : executing file1 and file2."  << endl;
 	}
+	else if (strcmp(argv[i], "-prio") == 0) {
+		priority[execfileNum] = atoi(argv[i+1]); //HanYu add
+		//cout << "Now execfileNum is " << execfileNum << endl;
+		//cout << "I will assign to  " << argv[i+1] << endl;
+	}
     }
 }
 
@@ -96,9 +101,11 @@ UserProgKernel::Run()
 	for (int n=1;n<=execfileNum;n++)
 		{
 		t[n] = new Thread(execfile[n]);
+		t[n]->setPriority(priority[n]); //HanYu add
 		t[n]->space = new AddrSpace();
 		t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
 		cout << "Thread " << execfile[n] << " is executing." << endl;
+		cout << "And its priority is " << t[n]->getPriority() << "." << endl;
 		}
 //	Thread *t1 = new Thread(execfile[1]);
 //	Thread *t1 = new Thread("../test/test1");
