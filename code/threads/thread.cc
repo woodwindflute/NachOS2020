@@ -39,6 +39,13 @@ Thread::Thread(char* threadName)
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
+/*ming add*/
+    this->setCPUBurstTime(100);
+   /*ming add*/
+
+   /*ming add*/
+	DEBUG(dbgThread, "Thread: " << name << "'s CPUBurstTime: " << getCPUBurstTime());
+    /*ming add*/
     for (int i = 0; i < MachineStateSize; i++) {
 	machineState[i] = NULL;		// not strictly necessary, since
 					// new thread ignores contents 
@@ -49,6 +56,27 @@ Thread::Thread(char* threadName)
 #endif
 }
 
+/*ming add*/
+
+int Thread::getCPUBurstTime(){
+	return CPUBurstTime;
+}
+
+void Thread::setCPUBurstTime(int initialCPUTime){
+	CPUBurstTime = initialCPUTime;
+}
+
+void Thread::predictNextCPUBurstTime(){
+int RANGE = 10;
+int temp;
+
+RandomInit(time(NULL));
+temp = RandomNumber()%(2*RANGE)-RANGE;
+
+CPUBurstTime = CPUBurstTime + temp;
+}
+
+/*ming add*/
 //----------------------------------------------------------------------
 // Thread::~Thread
 // 	De-allocate a thread.
@@ -149,7 +177,7 @@ void
 Thread::Begin ()
 {
     ASSERT(this == kernel->currentThread);
-    DEBUG(dbgThread, "Beginning thread: " << name);
+    DEBUG(dbgThread, "Beginning thread: " << name << "time:" << getCPUBurstTime());
     
     kernel->scheduler->CheckToBeDestroyed();
     kernel->interrupt->Enable();

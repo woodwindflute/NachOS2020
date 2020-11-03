@@ -82,8 +82,15 @@ class Thread {
     // THEY MUST be in this position for SWITCH to work.
     int *stackTop;			 // the current stack pointer
     void *machineState[MachineStateSize];  // all registers except for stackTop
-
+    /*ming add*/
+    int CPUBurstTime;
+   /*ming add*/
   public:
+    /*ming add*/
+    int getCPUBurstTime();
+    void setCPUBurstTime(int initialCpuTime);
+    void predictNextCPUBurstTime();
+   /*ming add*/
     Thread(char* debugName);		// initialize a Thread 
     ~Thread(); 				// deallocate a Thread
 					// NOTE -- thread being deleted

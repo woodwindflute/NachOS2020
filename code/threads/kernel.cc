@@ -38,11 +38,11 @@ ThreadedKernel::ThreadedKernel(int argc, char **argv)
             cout << "Partial usage: nachos [-rs randomSeed]\n";
 	} else if(strcmp(argv[i], "RR") == 0) {
             type = RR;
-        } else if (strcmp(argv[i], "FCFS") == 0) {
+        } else if (strcmp(argv[i], "-FCFS") == 0) {
             type = FIFO;
-        } else if (strcmp(argv[i], "PRIORITY") == 0) {
+        } else if (strcmp(argv[i], "-PRIORITY") == 0) {
             type = Priority;
-        } else if (strcmp(argv[i], "SJF") == 0) {
+        } else if (strcmp(argv[i], "-SJF") == 0) {
             type = SJF;
         }
     }

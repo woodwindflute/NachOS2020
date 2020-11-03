@@ -48,17 +48,21 @@ Scheduler::Scheduler(SchedulerType type)
 	schedulerType = type;
 	switch(schedulerType) {
     	case RR:
+            cout << "Current Type: RR ." << endl;
         	readyList = new List<Thread *>;
         	break;
     	case SJF:
-		/* todo */
+            cout << "Current Type: SJF ." << endl;
+		readyList = new List<Thread *>;
         	break;
     	case Priority:
-		readyList = new SortedList<Thread *>(PriorityCompare);
+            cout << "Current Type: PRIORITY ." << endl;
+		    readyList = new SortedList<Thread *>(PriorityCompare);
         	break;
     	case FIFO:
-		/* todo */
-		break;
+            cout << "Current Type: FCFS ." << endl;
+		    readyList = new List<Thread *>;
+		    break;
    	}
 	toBeDestroyed = NULL;
 } 
@@ -70,9 +74,8 @@ Scheduler::Scheduler(SchedulerType type)
 
 Scheduler::~Scheduler()
 { 
-    delete readyList; 
-} 
-
+    delete readyList;
+}
 //----------------------------------------------------------------------
 // Scheduler::ReadyToRun
 // 	Mark a thread as ready, but not running.
@@ -88,7 +91,15 @@ Scheduler::ReadyToRun (Thread *thread)
     DEBUG(dbgThread, "Putting thread on ready list: " << thread->getName());
     
     thread->setStatus(READY);
-    readyList->Append(thread);
+    if(schedulerType == SJF)
+    {
+         /*ming modify*/
+        readyList->SJF(thread);
+        /*ming modify*/
+    }
+    else
+        readyList->Append(thread);
+    if(schedulerType == Priority) cout<<"The Thread "<<thread->getName()<< " with Priority Value -> "<<thread->getPriority()<<endl; 
 }
 
 //----------------------------------------------------------------------
@@ -104,9 +115,12 @@ Scheduler::FindNextToRun ()
 {
     ASSERT(kernel->interrupt->getLevel() == IntOff);
 
-    if (readyList->IsEmpty()) {
-	return NULL;
-    } else {
+    if (readyList->IsEmpty()) 
+    {
+	    return NULL;
+    } 
+    else 
+    {
     	return readyList->RemoveFront();
     }
 }
@@ -209,5 +223,5 @@ void
 Scheduler::Print()
 {
     cout << "Ready list contents:\n";
-    readyList->Apply(ThreadPrint);
+    readyList->Apply(ThreadPrint);   
 }

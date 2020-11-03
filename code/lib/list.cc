@@ -379,3 +379,38 @@ SortedList<T>::SelfTest(T *p, int numEntries)
 
      delete q;
 }
+
+/*ming add*/
+template <class T>
+void
+List<T>::SJF(T item)
+{
+    ListElement<T> *element = new ListElement<T>(item);
+    ListElement<T> *ptr = first;
+
+    ASSERT(!IsInList(item));
+    if(IsEmpty()){
+	first = element;
+	last = element;
+} else if(item->getCPUBurstTime()<first->item->getCPUBurstTime())
+{ //item goes at front
+	element->next = first;
+	first = element;
+}else{		//look for first elt in liist bigger than item
+	while(ptr->next!=NULL){
+	    if(item->getCPUBurstTime()<ptr->next->item->getCPUBurstTime()){
+		element->next = ptr->next;
+		ptr->next = element;
+		numInList++;
+		return;
+	}
+    ptr= ptr->next;
+    }
+    last->next = element;
+    last = element;
+  }
+  numInList++;
+  ASSERT(IsInList(item));
+}
+
+/*ming add*/

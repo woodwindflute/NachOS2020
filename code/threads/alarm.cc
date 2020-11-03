@@ -58,9 +58,29 @@ Alarm::CallBack()
 	    timer->Disable();	// turn off the timer
 	}
     } else {			// there's someone to preempt
-	if(kernel->scheduler->getSchedulerType() == RR ||
-            kernel->scheduler->getSchedulerType() == Priority ) {
+	if(kernel->scheduler->getSchedulerType() == RR) {
 		interrupt->YieldOnReturn();
+	}
+	if(kernel->scheduler->getSchedulerType() == FIFO) {
+		return;
+	}
+    if(kernel->scheduler->getSchedulerType() == Priority) {
+		return;
+	}
+    if(kernel->scheduler->getSchedulerType() == SJF) {
+		//mind modify
+		Thread *t;
+		kernel->currentThread->predictNextCPUBurstTime();
+
+		printf("%s's current CPUBurstTime is %d\n", kernel->currentThread -> getName(), kernel->currentThread->getCPUBurstTime());
+
+		t = kernel->scheduler->FindNextToRun();
+		if(t == NULL)
+			return;
+		kernel->scheduler->ReadyToRun(t);
+		if(t->getCPUBurstTime()<(kernel->currentThread->getCPUBurstTime()))
+			interrupt->YieldOnReturn();
+		//ming modify
 	}
     }
 }
