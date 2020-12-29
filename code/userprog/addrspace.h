@@ -24,16 +24,17 @@ class AddrSpace {
     AddrSpace();			// Create an address space.
     ~AddrSpace();			// De-allocate an address space
 
-    static bool usedPhyPage[NumPhysPages];
-
     void Execute(char *fileName);	// Run the the program
 					// stored in the file "executable"
 
     void SaveState();			// Save/restore address space-specific
     void RestoreState();		// info on a context switch 
+    int ID;
 
   private:
-    TranslationEntry *pageTable;	// Assume linear page table translation
+   TranslationEntry *pageTable;
+
+    	// Assume linear page table translation
 					// for now!
     unsigned int numPages;		// Number of pages in the virtual 
 					// address space
@@ -43,7 +44,7 @@ class AddrSpace {
 
     void InitRegisters();		// Initialize user-level CPU registers,
 					// before jumping to user code
-
+     bool pt_is_load;
 };
 
 #endif // ADDRSPACE_H

@@ -37,9 +37,11 @@ class TranslationEntry {
     bool readOnly;	// If this bit is set, the user program is not allowed
 			// to modify the contents of the page.
     bool use;           // This bit is set by the hardware every time the
-			// page is referenced or modified.
+		 	// page is referenced or modified.
     bool dirty;         // This bit is set by the hardware every time the
-			// page is modified.
+		             	// page is modified.
+   
+    int ID;
 };
 
 #endif
