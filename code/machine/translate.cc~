@@ -248,22 +248,17 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
                          buf_2 = new char[PageSize];
                      
 
-                     if(page_type == 0){
-                         cout << "FIFO executing..." << endl;
-                         victim = (rand()%32);
-                     }
-                     if(page_type == 1){
-                        cout << "LRU executing..." << endl;
-                        int min = pageTable[0].count;
-                        victim=0;
-                        for(int ccount=0;ccount<32;ccount++){
-                            if(min > pageTable[ccount].count){
-                                min = pageTable[ccount].count;
-                                victim = ccount;      
-                            }
-                        } 
-                        pageTable[victim].count++;  
-                     }
+                     //LRU
+                     int min = pageTable[0].count;
+                     victim=0;
+                     for(int ccount=0;ccount<32;ccount++){
+                             if(min > pageTable[ccount].count){
+                                    min = pageTable[ccount].count;
+                                    victim = ccount;
+                                    
+                             }
+                     } 
+                     pageTable[victim].count++;  
                      
                      printf("Number = %d page swap out\n",victim);
 
@@ -327,5 +322,4 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
     DEBUG(dbgAddr, "phys addr = " << *physAddr);
     return NoException;
 }
-
 

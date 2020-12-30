@@ -16,6 +16,7 @@
 #include "interrupt.h"
 #include "stats.h"
 #include "alarm.h"
+extern int page_type;
 
 class ThreadedKernel {
   public:
